@@ -57,6 +57,29 @@
 		stdout-path = "serial0:115200n8";
 	};
 
+	display {
+		pinctrl-names = "default";
+		pinctrl-0 = <&backlight_pins>;
+		compatible = "hit,hd44780";
+
+		data-gpios = <&disp_gpio 0 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 1 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 2 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 3 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 4 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 5 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 6 GPIO_ACTIVE_HIGH>,
+			     <&disp_gpio 7 GPIO_ACTIVE_HIGH>;
+		enable-gpio = <&disp_gpio 8 GPIO_ACTIVE_HIGH>;
+		rs-gpio = <&disp_gpio 10 GPIO_ACTIVE_HIGH>;
+		rw-gpio = <&disp_gpio 9 GPIO_ACTIVE_HIGH>;
+
+		backlight-gpio = <&pio 0 6 GPIO_ACTIVE_HIGH>;
+
+		display-height-chars = <2>;
+		display-width-chars = <16>;
+	};
+
 	disp_keys {
 		compatible = "gpio-keys";
 		interrupt-parent = <&disp_gpio>;
@@ -88,14 +111,6 @@
 			gpio = <&disp_gpio 15 GPIO_ACTIVE_LOW>;
 			interrupts = <15 IRQ_TYPE_EDGE_RISING>;
 		};
-	};
-
-	backlight {
-		pinctrl-names = "default";
-		pinctrl-0 = <&backlight_pins>;
-		compatible = "gpio-backlight";
-		gpios = <&pio 0 6 GPIO_ACTIVE_HIGH>;
-		default-on;
 	};
 };
 
