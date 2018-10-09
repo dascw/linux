@@ -117,6 +117,29 @@ struct fbtft_device_display {
 	struct platform_device *pdev;
 };
 
+// @note patched for ST7789s
+static int spio_cs = -1;
+static void fbtft_cs(u32 chipselect)
+{
+	int ret;
+	printk("%s gpio=%d cs=%d\n", __func__, spio_cs, chipselect);
+	if ((ret = gpio_request(spio_cs, "fbtft_cs")))
+		return;
+	gpio_direction_output(spio_cs, 1);
+	gpio_set_value(spio_cs, chipselect);		
+	gpio_free(spio_cs);
+}
+
+struct sunxi_spi_config {
+	int bits_per_word;
+	int max_speed_hz;
+	int mode;
+	void (*cs_control) (u32 control);
+};
+struct sunxi_spi_config spi_config= {
+	.cs_control = fbtft_cs,
+};
+
 static void fbtft_device_pdev_release(struct device *dev);
 
 static int write_gpio16_wr_slow(struct fbtft_par *par, void *buf, size_t len);
@@ -1244,9 +1267,9 @@ static struct fbtft_device_display displays[] = {
 		.name = "matrix-st7789s",
 		.spi = &(struct spi_board_info) {
 			.modalias = "fb_st7789s",
-			.max_speed_hz = 25000000,
+			.max_speed_hz = 32000000,
 			.bus_num                = 0,
-		    .chip_select            = 2,		// third spi dev
+		    .chip_select            = 0,		// first spi dev
 			.mode = SPI_MODE_0,
 			.controller_data= &spi_config,
 			.platform_data = &(struct fbtft_platform_data) {
@@ -1262,7 +1285,6 @@ static struct fbtft_device_display displays[] = {
 				},
 			}
 		}
-	}
 	}
 };
 
