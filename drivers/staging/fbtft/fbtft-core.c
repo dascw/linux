@@ -837,10 +837,11 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
 	if (txbuflen >= vmem_size + 2)
 		txbuflen = 0;
 
-#ifdef __LITTLE_ENDIAN
+// @note attempt to flip endianess for bgr values.
+// #ifdef __LITTLE_ENDIAN
 	if ((!txbuflen) && (bpp > 8))
 		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
-#endif
+// #endif
 
 	if (txbuflen > 0) {
 		txbuf = devm_kzalloc(par->info->device, txbuflen, GFP_KERNEL);

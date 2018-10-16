@@ -195,15 +195,18 @@ int fbtft_write_vmem16_bus9(struct fbtft_par *par, size_t offset, size_t len)
 		dev_dbg(par->info->device, "    to_copy=%zu, remain=%zu\n",
 						to_copy, remain - to_copy);
 
-#ifdef __LITTLE_ENDIAN
+// @note fix attempt to shift to little endian for driving BGR unit.
+// #define __LITTLE_ENDIAN
+// #ifdef __LITTLE_ENDIAN
 		for (i = 0; i < to_copy; i += 2) {
 			txbuf16[i]     = 0x0100 | vmem8[i + 1];
 			txbuf16[i + 1] = 0x0100 | vmem8[i];
 		}
-#else
-		for (i = 0; i < to_copy; i++)
-			txbuf16[i]   = 0x0100 | vmem8[i];
-#endif
+// #else
+// 		for (i = 0; i < to_copy; i++)
+// 			txbuf16[i]   = 0x0100 | vmem8[i];
+// #endif
+
 		vmem8 = vmem8 + to_copy;
 		ret = par->fbtftops.write(par, par->txbuf.buf, to_copy * 2);
 		if (ret < 0)
