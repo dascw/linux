@@ -129,6 +129,12 @@ config FB_TFT_SSD1305
         help
           Framebuffer support for SSD1305
 
+config FB_TFT_ST7789S
+	tristate "FB driver for the ST7789S LCD Controller"
+	depends on FB_TFT
+	help
+	  Generic Framebuffer support for ST7789S
+
 config FB_TFT_SSD1306
 	tristate "FB driver for the SSD1306 OLED Controller"
 	depends on FB_TFT
