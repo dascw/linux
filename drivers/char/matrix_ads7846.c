@@ -9,6 +9,7 @@
 #include <linux/device.h>
 #include <linux/platform_data/spi-s3c64xx.h>
 
+#define CONFIG_S3C_GPIO_SPACE 0
 
 /*
  * Copyright (c) 2008 Simtec Electronics
