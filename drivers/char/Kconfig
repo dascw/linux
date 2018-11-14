@@ -588,5 +588,11 @@ config TILE_SROM
 
 source "drivers/char/xillybus/Kconfig"
 
+config MATRIX_ADS7846
+        tristate "spi device info for matrix ads7846/xpt2046"
+        default m
+        ---help---
+          this is spi device info for matrix ads7846/xpt2046.
+
 endmenu
 
