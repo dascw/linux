@@ -1260,6 +1260,8 @@ static int ads7846_probe(struct spi_device *spi)
 	unsigned long irq_flags;
 	int err;
 
+	spi->irq = 102; // @debug // @note force irq to be correct?
+
 	if (!spi->irq) {
 		dev_dbg(&spi->dev, "no IRQ?\n");
 		return -EINVAL;
