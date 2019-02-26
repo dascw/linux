@@ -168,3 +168,7 @@
 		vcc-supply = <&reg_vcc3v3>;
 	};
 };
+
+&usbphy {
+	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+};
