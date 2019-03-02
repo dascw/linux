@@ -100,6 +100,10 @@
 		hw_margin_ms = <30000>;
 		always-running;
 	};
+
+	usb1-vbus {
+		status = "okay";
+	};
 };
 
 &i2c0 {
@@ -117,31 +121,6 @@
 		status = "okay";
 		reg = <0x68>;
 	};
-};
-
-&ehci0 {
-	status = "okay";
-};
-
-&ohci0 {
-	status = "okay";
-};
-
-&usb_otg {
-	status = "okay";
-	dr_mode = "peripheral";
-};
-
-&ohci1 {
-	status = "disabled";
-};
-
-&ehci2 {
-	status = "disabled";
-};
-
-&ohci3 {
-	status = "disabled";
 };
 
 &uart1 {
@@ -182,6 +161,34 @@
 	};
 };
 
+&reg_usb0_vbus {
+    gpio = <&r_pio 0 2 GPIO_ACTIVE_HIGH>; /* PL2 */
+    status = "okay";
+};
+
+&usb_otg {
+    dr_mode = "host";
+    status = "okay";
+};
+
 &usbphy {
-	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+    usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+    usb0_vbus-supply = <&reg_usb0_vbus>;
+    status = "okay";
+};
+
+&ehci0 {
+	status = "okay";
+};
+
+&ohci0 {
+	status = "okay";
+};
+
+&ehci1 {
+	status = "okay";
+};
+
+&ohci1 {
+	status = "okay";
 };
